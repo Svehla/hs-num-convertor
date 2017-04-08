@@ -14,6 +14,10 @@ type System = Int
 type GeneralNumber = [Int]
 -- nothing special... just integer (but were sure, that its in decimal system)
 type DecNumber = Int
+-- 10 (sys 10) = "10" (sys 10) |10 (sys 10) = "A" (sys 16) => max limit is 35
+type SpecialCharsNum = String
+-- 10 (sys 10) = "1 0" (sys 10) | 30 (sys 10) = "1E" (sys 16) => max limit is 35
+type SpaceSplitInt = String
 
 -- convert from decimal
 -- take system and decimal number and return convert GeneralNumber 
@@ -47,7 +51,7 @@ arrToStrNum =
 
 -- parse NumberInString to GeneralNumber ("12A" => [1,2,10])
 -- max limit is 35... -> no abbrevation for another special chars
-parseHigherSystems :: String -> GeneralNumber
+parseHigherSystems :: SpecialCharsNum -> GeneralNumber
 parseHigherSystems =
   let mapFunc i = if (ord i - ord '0' ) < 10  then ord i - ord '0'
                                               else 10 + ord i - ord 'A'
@@ -67,7 +71,7 @@ validMetrix system value =
 -- convert number from System1 to System2
 -- input is for example "1010" and return is "A"
 -- max limit is 35 system...
-convertNum :: System -> System -> String -> Maybe String
+convertNum :: System -> System -> SpecialCharsNum -> Maybe SpecialCharsNum
 convertNum s1 s2 val = 
   let arrNum = parseHigherSystems val
   in 
@@ -86,6 +90,8 @@ convertNumByArrays s1 s2 val =
 
 -- third variant is split digit by space -> 60 systems -> "54 10 30 45"
 -- (System1 -> System2) => (2-16) take String like "1 0 1 0" and return for example 16 "A"
+-- different inputs and outputs... inputs string split by " " and outup is specialCharsNum...
+-- must fix..
 convertNumBySpaces :: System -> System -> String -> Maybe String
 convertNumBySpaces s1 s2 val =
   let arrNum = map (\i -> read i :: Int) (splitOn " " val)
