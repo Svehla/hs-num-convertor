@@ -19,6 +19,10 @@ main =  do
     Nothing -> putStrLn "Invalid inputs"
     Just q  -> putStrLn q
 
+  case convertNum 80 76 "1010," of
+    Nothing -> putStrLn "Invalid inputs"
+    Just q  -> putStrLn q
+
   case convertNumByArrays 2 16 [1,0,1,0,2] of
     Nothing -> putStrLn "Invalid inputs"
     Just q  -> putStrLn $ show q

@@ -2,6 +2,7 @@ module Convert
 ( convertNumByArrays
 , convertNum
 , convertNumBySpaces
+, validBoolArr
 ) where
 
 import Data.Char
@@ -18,6 +19,17 @@ type DecNumber = Int
 type SpecialCharsNum = String
 -- 10 (sys 10) = "1 0" (sys 10) | 30 (sys 10) = "1E" (sys 16) => max limit is 35
 type SpaceSplitInt = String
+
+
+
+
+
+-- helpers functions
+-- check if array contain unvalid type (False...)
+validBoolArr :: [Bool] -> Bool
+validBoolArr = not . (elem False)
+
+
 
 -- convert from decimal
 -- take system and decimal number and return convert GeneralNumber 
@@ -49,6 +61,20 @@ arrToStrNum =
                             else (toUpper . chr) (i - 10 + ord 'a')
   in map mapFunc
 
+
+
+-- hasBoolInArr boolArr = not $ False `elem` boolArr
+-- valid max system
+validMaxSystem :: String -> Bool
+validMaxSystem x = 
+  let myF i = (i `elem` ['0'..'9']) || (toUpper i  `elem` ['A'..'Z'])
+  in validBoolArr $ map myF x 
+
+
+
+
+
+
 -- parse NumberInString to GeneralNumber ("12A" => [1,2,10])
 -- max limit is 35... -> no abbrevation for another special chars
 parseHigherSystems :: SpecialCharsNum -> GeneralNumber
@@ -64,7 +90,8 @@ parseHigherSystems =
 -- [0,1,0,9] isnt valid in system 2
 validMetrix :: System -> GeneralNumber -> Bool
 validMetrix system value =
-  not $ False `elem` (map (<system) value )
+  validBoolArr $ map (<system) value 
+
 
 
 -- public api for user
@@ -75,7 +102,7 @@ convertNum :: System -> System -> SpecialCharsNum -> Maybe SpecialCharsNum
 convertNum s1 s2 val = 
   let arrNum = parseHigherSystems val
   in 
-    if validMetrix s1 arrNum
+    if validMetrix s1 arrNum && validMaxSystem val
         then Just $ arrToStrNum $ somethingToSomething s1 s2 arrNum
         else Nothing
   
