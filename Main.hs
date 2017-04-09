@@ -11,7 +11,7 @@ import Data.Char
 
 main :: IO ()
 main =  do
-  case convertNum 2 16 "1010A" of
+  case convertNum 2 16 "1010" of
     Nothing -> putStrLn "Invalid inputs"
     Just q  -> putStrLn q
 
@@ -19,7 +19,7 @@ main =  do
   --  Nothing -> putStrLn "Invalid inputs"
   --  Just q  -> putStrLn q
 
-  case convertNum 2 16 "1010" of
+  case convertNum 2 16 "1010A" of
     Nothing -> putStrLn "Invalid inputs"
     Just q  -> putStrLn q
 
