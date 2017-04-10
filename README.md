@@ -1,14 +1,14 @@
 # hs-num-convertor
 
-Haskell implementation of number convertor 
+Haskell implementation of number convertor
 
-num-convertor enable convert number from M to N system 
-e.g.: 
-	- 2 -> 16  -- bin to hex
-	- 16 -> 8  -- hex to oct
-	- 60 -> 10 -- sixty to dec ( for example from clock to min )
-	- M -> N   -- you can choose your favourite system in interval [1..]
-	... 
+num-convertor enable convert number from M to N system
+e.g.:
+	- 2 -> 16  -- bin to hex <br/>
+	- 16 -> 8  -- hex to oct <br/>
+	- 60 -> 10 -- sixty to dec ( for example from clock to min ) <br/>
+	- M -> N   -- you can choose your favourite system in interval [1..] <br/>
+	...
 
 
 becouse higher system must have special chars so there are many posibilities of inputs
@@ -23,14 +23,14 @@ if we want work with higher systems, we must use array of Int digits e.q.: <br /
 ` 2 30 (60) == [2, 30] (20) ` <br />
 ` 0000 (1) == [0, 0, 0, 0] ` <br />
 
-hs-num-convertor also support UNARY NUMERAL SYSTEM :) 
+hs-num-convertor also support UNARY NUMERAL SYSTEM :)
 [wiki link](https://en.wikipedia.org/wiki/Unary_numeral_system)
 
 
 
 ## validate inputs ##
 all functions return `Maybe` type, becouse we need validate inputs
-we can for example use: 
+we can for example use:
 ```
 case convertNum 2 16 "1010" of
   Nothing -> putStrLn "Invalid inputs"
@@ -42,7 +42,7 @@ case convertNum 2 16 "1010" of
 public functions
 - convertNum
 - convertNumByArrays
-- convertNumBySpaces 
+- convertNumBySpaces
 
 
 bin to hex   => `convertNum 2 16 "1010"` -> `Just "A"` <br />
@@ -79,5 +79,3 @@ third argument <br />
  - convertNumBySpaces
    - `convertNumBySpaces system1 system2 "15 10 2 5"`
    - `convertNumBySpaces 16 3 "15 10 2 5"`
-
-
