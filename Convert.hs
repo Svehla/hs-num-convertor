@@ -2,12 +2,12 @@ module Convert
 ( convertNumByArrays
 , convertNum
 , convertNumBySpaces
+, fromMtoN
 ) where
 
 
-
-
 import Data.Char
+import Data.List
 import Data.List.Split
 
 
@@ -31,23 +31,24 @@ type SpaceSplitInt = String
 -- ========= main logic functions =========
 -- ========================================
 -- convert from decimal
--- take system and decimal number and return convert GeneralNumber
+-- take system and decimal number // -> convert GeneralNumber
 conFromDec :: System -> DecNumber -> GeneralNumber
+conFromDec 1 decNum = [ 0 | x <- [1..decNum] ] -- 1 system
 conFromDec _ 0 = []
 conFromDec system x =
     conFromDec system (x `div` system) ++ [x `mod` system]
 
---convertToDecimal
--- ill take system and general number and return basic integer (in decimal system)
+-- convert to decimal
+-- take system and general number // -> basic integer (10)
 conToDec :: System -> GeneralNumber -> DecNumber
+conToDec 1 genNum = length genNum --1 system
 conToDec _ [] = 0
 conToDec system (x:xs) =
     x * system^ length xs + conToDec system xs
 
--- take system1 from and system2 to
--- and convert general number from system1 to system2
-somethingToSomething :: System -> System -> GeneralNumber -> GeneralNumber
-somethingToSomething s1 s2 =
+-- (M to N system) ->  from N system via dec system to M system
+fromMtoN :: System -> System -> GeneralNumber -> GeneralNumber
+fromMtoN s1 s2 =
   conFromDec s2 . conToDec s1
 
 
@@ -55,7 +56,7 @@ somethingToSomething s1 s2 =
 -- =====================================
 -- ======== parsing and decoding =======
 -- =====================================
--- convert GeneralNumber to String (A == 10 | B == 11 ... )
+-- convert GeneralNumber to String (0 -> "0" A == "10" | B == "11" ... )
 arrToStrNum :: GeneralNumber -> String
 arrToStrNum =
   let mapFunc i = if i < 10 then chr (i + ord '0')
@@ -89,35 +90,31 @@ validMaxSystem = all $ ( `elem` enabledAbbrev) . toUpper
 validMaxAbbrev :: System -> Bool
 validMaxAbbrev = (>) (length enabledAbbrev)
 
+validPossibleSystem :: System -> Bool
+validPossibleSystem = (>0)
+
 
 -- =================================
 -- ====== public api for user ======
 -- =================================
 -- convert number from System1 to System2
 -- input is for example "1010" and return is "A"
--- max limit is 35 system...
-
---TODO 1 system implementation...
---addZeros :: Int -> String
---addZeros 0 = ""
---addZeros counter = "0" ++ addZeros counter-1
---TODO
---convertNum s1 1 _ = addZeros $ conToDec s1 [1,0,1]--Nothing -- cant use 1 system
---convertNum 1 _ _ = Nothing -- cant use 1 system
-
 convertNum :: System -> System -> SpecialCharsNum -> Maybe SpecialCharsNum
 convertNum s1 s2 val =
   let arrNum = parseHigherSystems val
-  in if validMetrix s1 arrNum && validMaxSystem val && validMaxAbbrev s2
-       then Just $ arrToStrNum $ somethingToSomething s1 s2 arrNum
+  in if validMetrix s1 arrNum 
+          && validMaxSystem val 
+          && validPossibleSystem s2 
+          && validMaxAbbrev s2
+       then Just $ arrToStrNum $ fromMtoN s1 s2 arrNum
        else Nothing
 
 
 -- take generalNumber in system1 and rerurn convert number to system 2
 convertNumByArrays :: System -> System -> GeneralNumber -> Maybe GeneralNumber
 convertNumByArrays s1 s2 val =
-  if validMetrix s1 val
-    then Just $ somethingToSomething s1 s2 val
+  if validMetrix s1 val && validPossibleSystem s2
+    then Just $ fromMtoN s1 s2 val
     else Nothing
 
 
@@ -125,15 +122,13 @@ convertNumByArrays s1 s2 val =
 -- (System1 -> System2) => (2-16) take String like "1 0 1 0" and return for example 16 "A"
 -- different inputs and outputs... inputs string split by " " and outup is specialCharsNum...
 -- must fix..
+defSplitChar = " "
 convertNumBySpaces :: System -> System -> String -> Maybe String
 convertNumBySpaces s1 s2 val =
-  let arrNum = map read $ splitOn " " val
-  in if validMetrix s1 arrNum
-       then Just $ arrToStrNum $ somethingToSomething s1 s2 arrNum
-       else Nothing
-
-
-
+  let arrNum = map read $ splitOn defSplitChar val
+  in if validMetrix s1 arrNum && validPossibleSystem s2
+      then Just $ intercalate defSplitChar $ map show $ fromMtoN s1 s2 arrNum
+      else Nothing
 
 
 
