@@ -46,7 +46,7 @@ public functions
 
 
 bin to hex   => `convertNum 2 16 "1010"` -> `Just "A"` <br />
-unary to bin => `convertNum 1 2 "0000000000" -> `Just '1010'` <br />
+unary to bin => `convertNum 1 2 "0000000000"` -> `Just '1010'` <br />
 dec to oct   => `convertNum 10 8 "14"` -> `Nothing` becouse its invalid <br />
 sixty to dec => `convertNumBySpaces 10 8 "14"` -> `Nothing` becouse its invalid <br />
 sixty to dec => `convertNumBySpaces 60 10 "1 20"` -> `Just "8 0"`<br />
