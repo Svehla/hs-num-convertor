@@ -12,16 +12,16 @@ e.g.:
 
 
 becouse higher system must have special chars so there are many posibilities of inputs
-in hex system we use 'A' 'B' 'C' 'D' 'E' 'F' __
+in hex system we use 'A' 'B' 'C' 'D' 'E' 'F' <br />
 so you can work with 35 system -> ` [0..9]++['A'..'Z'] ` -- all is case inssensitive 'A' == 'a'
 
-we can use max 35 system ( `length ([0..9]++['A'..'Z'])` ) for imputs with abbrevations __
-if we want work with higher systems, we must use array of Int digits e.q.: __
-` 101 (10) == [1,0,1] (10) ` __
-` ABC (16) == [10, 11, 12] (16) ` __
-` G (20) == [17] (20) ` __
-` 2 30 (60) == [2, 30] (20) ` __
-` 0000 (1) == [0, 0, 0, 0] ` __
+we can use max 35 system ( `length ([0..9]++['A'..'Z'])` ) for imputs with abbrevations <br />
+if we want work with higher systems, we must use array of Int digits e.q.: <br />
+` 101 (10) == [1,0,1] (10) ` <br />
+` ABC (16) == [10, 11, 12] (16) ` <br />
+` G (20) == [17] (20) ` <br />
+` 2 30 (60) == [2, 30] (20) ` <br />
+` 0000 (1) == [0, 0, 0, 0] ` <br />
 
 hs-num-convertor also support UNARY NUMERAL SYSTEM :) 
 [wiki link](https://en.wikipedia.org/wiki/Unary_numeral_system)
@@ -45,12 +45,12 @@ public functions
 - convertNumBySpaces 
 
 
-bin to hex   => `convertNum 2 16 "1010"` -> `Just "A"`__
-unary to bin => `convertNum 1 2 "0000000000" -> `Just '1010'`__
-dec to oct   => `convertNum 10 8 "14"` -> `Nothing` becouse its invalid __
-sixty to dec => `convertNumBySpaces 10 8 "14"` -> `Nothing` becouse its invalid __
-sixty to dec => `convertNumBySpaces 60 10 "1 20"` -> `Just "8 0"`__
-sixty to dec => `convertNumByArrays 60 10 [1, 20]` -> `Just [8, 0]"` __
+bin to hex   => `convertNum 2 16 "1010"` -> `Just "A"` <br />
+unary to bin => `convertNum 1 2 "0000000000" -> `Just '1010'` <br />
+dec to oct   => `convertNum 10 8 "14"` -> `Nothing` becouse its invalid <br />
+sixty to dec => `convertNumBySpaces 10 8 "14"` -> `Nothing` becouse its invalid <br />
+sixty to dec => `convertNumBySpaces 60 10 "1 20"` -> `Just "8 0"`<br />
+sixty to dec => `convertNumByArrays 60 10 [1, 20]` -> `Just [8, 0]"` <br />
 
 
 
@@ -59,20 +59,20 @@ sixty to dec => `convertNumByArrays 60 10 [1, 20]` -> `Just [8, 0]"` __
 hs-num-convertor enable us use 3 different functions
 
 
-first argument __
+first argument <br />
 `system from `
 
 
-second argument __
+second argument <br />
 `system to`
 
-third argument __ 
+third argument <br />
 	- ` velue (in same system as first argument) `
 
  - convertNum
    - `convertNum system1 system2 "DF48"`
    - `convertNum 16 8 "DF48"`
-   - max length of system is 35 --> `(length ['a'..'b'] ++ [1..9]) == 35`
+   - max length of system is 35 => `(length ['a'..'b'] ++ [1..9]) == 35`
  - convertNumByArrays
    - `convertNumByArrays system1 system2 [1,2,3,4]`
    - `convertNumByArrays 10 16 [1,2,3,4] `
